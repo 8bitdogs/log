@@ -29,6 +29,10 @@ type inner struct {
 }
 
 func newInner(out io.Writer, prefix string, level Level, flag int) *inner {
+	return innerWithLogger(out, prefix, level, flag, l.New(out, "", flag))
+}
+
+func innerWithLogger(out io.Writer, prefix string, level Level, flag int, logger *l.Logger) *inner {
 	var lvl string
 	if level <= DebugLevel && level > OffLevel {
 		lvl = fmt.Stringer(level).String() + " "
@@ -39,7 +43,7 @@ func newInner(out io.Writer, prefix string, level Level, flag int) *inner {
 	return &inner{
 		level:  lvl,
 		prefix: prefix,
-		logger: l.New(out, "", flag),
+		logger: logger,
 	}
 }
 
@@ -56,6 +60,9 @@ func (i *inner) Println(args ...interface{}) {
 }
 
 func (i *inner) Copy(prefix string) cpPrinter {
+	if prefix != "" {
+		prefix += " "
+	}
 	return &inner{logger: i.logger, level: i.level, prefix: prefix}
 }
 
