@@ -56,6 +56,8 @@ type Printer interface {
 }
 
 type Logger interface {
+	Copy(string) Logger
+
 	Debug(...interface{})
 	Debugf(string, ...interface{})
 	Debugln(...interface{})
@@ -111,6 +113,8 @@ func ParseLevel(level string) (Level, error) {
 		return OffLevel, ErrInvalidStringLevel
 	}
 }
+
+func Copy(prefix string) Logger { return DefaultLogger.Copy(prefix) }
 
 func Debug(args ...interface{})                 { DefaultLogger.Debug(args...) }
 func Debugf(format string, args ...interface{}) { DefaultLogger.Debugf(format, args...) }
