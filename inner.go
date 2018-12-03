@@ -90,7 +90,7 @@ func NewWithOutput(out io.Writer, prefix string, level Level, flag int) Logger {
 		return l
 	}
 	l.info = newInner(out, prefix, InfoLevel, flag)
-	if level <= InfoLevel {
+	if level == InfoLevel {
 		return l
 	}
 	l.debug = newInner(out, prefix, DebugLevel, flag)
