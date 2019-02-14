@@ -8,13 +8,17 @@ func (l *llvl) Print(...interface{}) {}
 
 type llog struct {
 	l   *llvl
-	lvl LogLevel
+	lvl Level
 }
 
 func (l *llog) print() {
-	if l.lvl == Off {
+	if l.lvl == OffLevel {
 		l.l.Print()
 	}
+}
+
+type Simple interface {
+	Print(...interface{})
 }
 
 type llogx struct {
@@ -26,7 +30,7 @@ func (l *llogx) print() {
 }
 
 func BenchmarkIfLevel(t *testing.B) {
-	l := &llog{l: &llvl{}}
+	l := &llog{l: &llvl{}, lvl: OffLevel}
 	for i := 0; i < t.N; i++ {
 		l.print()
 	}
