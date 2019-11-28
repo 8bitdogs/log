@@ -4,6 +4,7 @@ import (
 	"errors"
 	l "log"
 	"os"
+	"strings"
 )
 
 const (
@@ -96,7 +97,7 @@ func DefaultPrinters() Printers {
 }
 
 func ParseLevel(level string) (Level, error) {
-	switch level {
+	switch strings.ToUpper(level) {
 	case OffLevelString:
 		return OffLevel, nil
 	case FatalLevelString:
